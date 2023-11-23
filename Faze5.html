@@ -1,0 +1,60 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Simulation</title>
+    <style>
+        body {
+            background-color: black;
+            text-align: center;
+        }
+        .contador {
+            font-size: 24px;
+            text-align: center;
+            color: aliceblue;
+            background-color: orange;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <button id="btnA">Simulate A</button>
+    <button id="btnD">Simulate D</button>
+    <button id="btnW">Simulate W</button>
+    <div class="contador">
+        Tempo em jogo: <span id="tempo"></span>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+  // Obtém a hora de entrada do usuário
+  var entrada = new Date();
+
+  // Atualiza o contador a cada segundo
+  setInterval(function () {
+    var agora = new Date();
+    var diferenca = agora - entrada;
+
+    // Converte a diferença para segundos
+    var segundos = Math.floor(diferenca / 1000);
+
+    // Atualiza o elemento de tempo no formato de horas: minutos: segundos
+    document.getElementById('tempo').textContent = formatarTempo(segundos);
+  }, 1000);
+
+  // Função para formatar o tempo em horas: minutos: segundos
+  function formatarTempo(segundos) {
+    var horas = Math.floor(segundos / 3600);
+    var minutos = Math.floor((segundos % 3600) / 60);
+    var segundosRestantes = segundos % 60;
+
+    return `${horas}h ${minutos}m ${segundosRestantes}s`;
+  }
+});
+    </script>
+    <script src="data/portal5.js"></script>
+    <script src="data/collision.js"></script>
+    <script src="data/classes.js"></script>
+    <script src="Parte1.js"></script>
+    <script src="data/botao.js"></script>
+</body>
+</html>

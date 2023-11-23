@@ -1,0 +1,207 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz de Múltipla Escolha</title>
+
+
+  <style>
+    
+
+    body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-image: url('https://pronep.s3.amazonaws.com/wp-content/uploads/2023/05/24174516/tireoide-1.png'); /* Substitua pelo caminho correto da sua imagem */
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white; /* Cor do texto */
+}
+
+.contador {
+            font-size: 24px;
+            text-align: center;
+            color: aliceblue;
+            background-color: orange;
+        }
+
+h1 {
+  margin-bottom: 20px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+#options-container {
+  margin-top: 20px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #dbb434; /* Cor de fundo do botão */
+  color: white; /* Cor do texto do botão */
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #41b929; /* Cor de fundo do botão ao passar o mouse */
+}
+  </style>
+</head>
+<body>
+
+  <div class="contador">
+    Tempo em jogo: <span id="tempo"></span>
+</div>
+  <h1>Quiz sobre Tireoide</h1>
+  <p id="vida-contador">Vidas: <span id="vidas">5</span></p>
+  <div id="question-container"></div>
+  <div id="options-container"></div>
+  <button onclick="checkAnswer()">Verificar</button>
+  <div class="contador">
+    Tempo em jogo: <span id="tempo"></span>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+// Obtém a hora de entrada do usuário
+var entrada = new Date();
+
+// Atualiza o contador a cada segundo
+setInterval(function () {
+var agora = new Date();
+var diferenca = agora - entrada;
+
+// Converte a diferença para segundos
+var segundos = Math.floor(diferenca / 1000);
+
+// Atualiza o elemento de tempo no formato de horas: minutos: segundos
+document.getElementById('tempo').textContent = formatarTempo(segundos);
+}, 1000);
+
+// Função para formatar o tempo em horas: minutos: segundos
+function formatarTempo(segundos) {
+var horas = Math.floor(segundos / 3600);
+var minutos = Math.floor((segundos % 3600) / 60);
+var segundosRestantes = segundos % 60;
+
+return `${horas}h ${minutos}m ${segundosRestantes}s`;
+}
+});
+</script>
+
+  <script>
+
+    let vidas = 5
+
+    // Array de perguntas e respostas
+    const questions = [
+      {
+        question: "Qual é o papel do calcitonina, um hormônio produzido pela tireoide?",
+        options: ["Aumentar os níveis de cálcio no sangue",
+        "Regular o metabolismo da glicose", 
+        "Diminuir os níveis de cálcio no sangue", 
+        "Não tem nenhum papel no corpo humano"],
+        correctAnswer: "Diminuir os níveis de cálcio no sangue"
+      },
+      {
+        question: "Qual é o tratamento comum para o hipertireoidismo?",
+        options: ["Suplementação com hormônios tireoidianos",
+        "Medicação para inibir a produção de hormônios tireoidianos",
+        "Cirurgia para remover parte da tireóide",
+        "Todas as opções acima são possíveis tratamentos",],
+        correctAnswer: "Todas as opções acima são possíveis tratamentos"
+      },
+      {
+        question: "Quais são alguns sintomas comuns do hipotireoidismo?",
+        options: ["Perda de peso e ansiedade",
+        "Ganho de peso e fadiga",
+        "Sudorese excessiva e tremores",
+        "Perda de cabelo e ganho de peso"],
+        correctAnswer: "Ganho de peso e fadiga"
+      },
+      {
+        question: "Quais são os dois principais hormônios produzidos pela tireoide?",
+        options: ["Insulina e glucagon",
+        " Estrogênio e progesterona",
+        "T3 e T4", 
+        "ACTH e cortisol"],
+        correctAnswer: "T3 e T4"
+      },
+      {
+        question: "O que é um bócio? ",
+        options: [" Um tipo de câncer de tireoide",
+        "Uma inflamação da tireoide",
+        "Um aumento no tamanho da tireóide",
+        "Uma diminuição no tamanho da tireóide"],
+        correctAnswer: "Um aumento no tamanho da tireóide"
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+
+    // Função para exibir a pergunta atual e opções
+    function displayCurrentQuestion() {
+      const questionContainer = document.getElementById("question-container");
+      const optionsContainer = document.getElementById("options-container");
+      const vidasElement = document.getElementById("vidas");
+
+      vidasElement.textContent = vidas;
+
+      const currentQuestion = questions[currentQuestionIndex];
+      questionContainer.innerHTML = `<p>${currentQuestion.question}</p>`;
+
+      const optionsHTML = currentQuestion.options.map(option => `<input type="radio" name="answer" value="${option}">${option}<br>`).join('');
+      optionsContainer.innerHTML = optionsHTML;
+    }
+
+    // Função para verificar a resposta
+    function checkAnswer() {
+      const selectedOption = document.querySelector('input[name="answer"]:checked');
+
+      if (selectedOption) {
+        const userAnswer = selectedOption.value;
+        const correctAnswer = questions[currentQuestionIndex].correctAnswer;
+
+        if (userAnswer === correctAnswer) {
+          currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+          displayCurrentQuestion();
+          if (currentQuestionIndex === 0) {
+            // Todas as perguntas foram respondidas corretamente
+            alert("Parabéns! Você concluiu o quiz.");
+            window.location.href = "Faze3.html"
+          }
+        } else {
+          vidas--;
+          if (vidas === 0) {
+            // Todas as vidas foram perdidas
+            alert("Você perdeu todas as vidas. Reiniciando o jogo.");
+            currentQuestionIndex = 0;
+            vidas = 5;
+          }
+          // Atualiza o número de vidas mesmo quando a resposta está incorreta
+          displayCurrentQuestion();
+        }
+
+        // Limpa a seleção da opção
+        selectedOption.checked = false;
+      } else {
+        alert("Por favor, selecione uma resposta antes de verificar.");
+      }
+    }
+
+    // Inicialização do quiz
+    displayCurrentQuestion();
+  </script>
+
+</body>
+</html>

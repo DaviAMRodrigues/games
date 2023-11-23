@@ -1,0 +1,198 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz de Múltipla Escolha</title>
+
+
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-image: url('https://cerebriti.b-cdn.net/uploads/FB_0e3e76c9a5913f81f40bfb768ec4ab9d.png'); /* Substitua pelo caminho correto da sua imagem */
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: black; /* Cor do texto */
+}
+
+.contador {
+            font-size: 24px;
+            text-align: center;
+            color: aliceblue;
+            background-color: orange;
+        }
+
+h1 {
+  margin-bottom: 20px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+#options-container {
+  margin-top: 20px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #dbb434; /* Cor de fundo do botão */
+  color: white; /* Cor do texto do botão */
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #41b929; /* Cor de fundo do botão ao passar o mouse */
+}
+  </style>
+</head>
+<body>
+
+  <div class="contador">
+    Tempo em jogo: <span id="tempo"></span>
+</div>
+  <h1>Quiz sobre Ovário/Testículo</h1>
+  <p id="vida-contador">Vidas: <span id="vidas">5</span></p>
+  <div id="question-container"></div>
+  <div id="options-container"></div>
+  <button onclick="checkAnswer()">Verificar</button>
+  <div class="contador">
+    Tempo em jogo: <span id="tempo"></span>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+// Obtém a hora de entrada do usuário
+var entrada = new Date();
+
+// Atualiza o contador a cada segundo
+setInterval(function () {
+var agora = new Date();
+var diferenca = agora - entrada;
+
+// Converte a diferença para segundos
+var segundos = Math.floor(diferenca / 1000);
+
+// Atualiza o elemento de tempo no formato de horas: minutos: segundos
+document.getElementById('tempo').textContent = formatarTempo(segundos);
+}, 1000);
+
+// Função para formatar o tempo em horas: minutos: segundos
+function formatarTempo(segundos) {
+var horas = Math.floor(segundos / 3600);
+var minutos = Math.floor((segundos % 3600) / 60);
+var segundosRestantes = segundos % 60;
+
+return `${horas}h ${minutos}m ${segundosRestantes}s`;
+}
+});
+</script>
+
+  <script>
+
+    let vidas = 5
+
+    // Array de perguntas e respostas
+    const questions = [
+      {
+        question: "O hormônio produzido pelos testículos é o/a",
+        options: ["testosterona",
+        "estrogeneo", 
+        "T3", 
+        "FSH"],
+        correctAnswer: "testosterona"
+      },
+      {
+        question: "Os testículos são envolvidos pela bolsa escrotal",
+        options: ["Sim",
+        "Não",
+        "Errado em partes"],
+        correctAnswer: "Sim"
+      },
+      {
+        question: "Qual é o hormônio produzido pelos ovários?",
+        options: ["Estrógeno e Progesterona",
+        "T4 e T3",
+        "Insulina",
+        "Testosterona"],
+        correctAnswer: "Estrógeno e Progesterona"
+      },
+      {
+        question: "Os ovários são órgãos pélvicos?",
+        options: ["Sim",
+        "Não"],
+        correctAnswer: "Sim"
+      },
+      {
+        question: "A quantidade de óvulos nos ovários diminui ao longo da vida de uma mulher?",
+        options: ["Falso",
+        "Verdadeiro"],
+        correctAnswer: "Verdadeiro"
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+
+    // Função para exibir a pergunta atual e opções
+    function displayCurrentQuestion() {
+      const questionContainer = document.getElementById("question-container");
+      const optionsContainer = document.getElementById("options-container");
+      const vidasElement = document.getElementById("vidas");
+
+      vidasElement.textContent = vidas;
+
+      const currentQuestion = questions[currentQuestionIndex];
+      questionContainer.innerHTML = `<p>${currentQuestion.question}</p>`;
+
+      const optionsHTML = currentQuestion.options.map(option => `<input type="radio" name="answer" value="${option}">${option}<br>`).join('');
+      optionsContainer.innerHTML = optionsHTML;
+    }
+
+    // Função para verificar a resposta
+    function checkAnswer() {
+      const selectedOption = document.querySelector('input[name="answer"]:checked');
+
+      if (selectedOption) {
+        const userAnswer = selectedOption.value;
+        const correctAnswer = questions[currentQuestionIndex].correctAnswer;
+
+        if (userAnswer === correctAnswer) {
+          currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+          displayCurrentQuestion();
+          if (currentQuestionIndex === 0) {
+            
+          }
+        } else {
+          vidas--;
+          if (vidas === 0) {
+            // Todas as vidas foram perdidas
+            alert("Você perdeu todas as vidas. Reiniciando o jogo.");
+            currentQuestionIndex = 0;
+            vidas = 5;
+          }
+          // Atualiza o número de vidas mesmo quando a resposta está incorreta
+          displayCurrentQuestion();
+        }
+
+        // Limpa a seleção da opção
+        selectedOption.checked = false;
+      } else {
+        alert("Por favor, selecione uma resposta antes de verificar.");
+      }
+    }
+
+    // Inicialização do quiz
+    displayCurrentQuestion();
+  </script>
+
+</body>
+</html>
