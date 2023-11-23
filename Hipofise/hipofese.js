@@ -24,7 +24,7 @@ const offset = {
 
 portal1Map.forEach((row, i) => {
     row.forEach((symbol, j) =>{
-        if (symbol === 142)
+        if (symbol === 18)
         portal01.push(
             new entrace1({
                 position: {
@@ -39,7 +39,7 @@ console.log(portal1Map)
 
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) =>{
-        if (symbol === 142)
+        if (symbol === 18)
         boundaries.push(
             new Boundary({
                 position: {
