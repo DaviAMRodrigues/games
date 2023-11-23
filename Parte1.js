@@ -53,7 +53,7 @@ collisionsMap.forEach((row, i) => {
 console.log(collisionsMap)
 
 const image = new Image()
-image.src = './img/PROJECT.PNG'
+image.src = './img/Project.png'
 
 const foregroundImage = new Image()
 foregroundImage.src = './img/Imagem1.jpg'
