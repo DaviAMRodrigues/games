@@ -5,15 +5,15 @@ canvas.width = window.innerWidth
 canvas.height = window.innerWidth*0.5
 
 const portal1Map = []
-for (let i = 0; i < portal1.length; i+= 130) {
-    portal1Map.push(portal1.slice(i, 130 + i))
+for (let i = 0; i < portal1.length; i+= 480) {
+    portal1Map.push(portal1.slice(i, 480 + i))
 }
 
 const portal01 = []
 
 const collisionsMap = []
-for (let i = 0; i < collisions.length; i+= 130) {
-    collisionsMap.push(collisions.slice(i, 130 + i))
+for (let i = 0; i < collisions.length; i+= 480) {
+    collisionsMap.push(collisions.slice(i, 480 + i))
 }
 
 const boundaries = []
